@@ -1,0 +1,68 @@
+<!--
+ * @Author: Yepeng Zhang
+ * @LastEditors: Yepeng Zhang
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>login</title>
+</head>
+
+<body>
+    <div id="app">
+        <el-card class="box-card">
+            <div class="logo">LOGO</div>
+            <el-input class="input-item" v-model="account" placeholder="请输入内容"></el-input>
+            <el-input class="input-item" placeholder="请输入密码" v-model="password" show-password></el-input>
+            <el-button type="primary" class="login-btn btn" @click="login">登录</el-button>
+            <el-button type="primary" class="register-btn btn" @click="register">注册</el-button>
+        </el-card>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                account: '',
+                password: '',
+
+            },
+            methods: {
+                resetData(){
+                    this.account = '';
+                    this.password = '';
+                },
+                login() {
+                    window.location.href = './login.html';
+                },
+                register() {
+                    let _this = this;
+                    axios({
+                        method: 'post',
+                        url: 'http://interview.emicmh.com/signup',
+                        data: {
+                            firstName: this.account,
+                            lastName: this.password,
+                        }
+                    }).then(function (res) {
+                        console.log(res, 'res')
+                        if(res.data.code === 200){
+                            alert('注册成功');
+                            _this.resetData();
+                        }
+                    });
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
